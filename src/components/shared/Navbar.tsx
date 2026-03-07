@@ -105,14 +105,15 @@ export default function Navbar() {
 
                 {/* Desktop Buttons */}
                 <div className="hidden md:flex md:items-center md:gap-3">
-                    <Button
+                    <Button 
                         variant="ghost"
-                        className="rounded-full px-5 text-sm font-medium"
+                        className="rounded-full px-5 text-sm font-medium">
+                        Registrarse
+                    </Button>
+                    <Button
+                        className="rounded-full px-5 text-sm font-medium shadow-sm"
                     >
                         Iniciar sesión
-                    </Button>
-                    <Button className="rounded-full px-5 text-sm font-medium shadow-sm">
-                        Registrarse
                     </Button>
                 </div>
 
