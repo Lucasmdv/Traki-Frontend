@@ -5,21 +5,22 @@ import { Menu, X, PackageSearch } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
     NavigationMenu,
-    NavigationMenuContent,
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
-    NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
+import { useAuth } from '@/features/auth/hooks/useAuth';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const { isAuthenticated, user, logout } = useAuth();
 
     return (
         <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 {/* Logo */}
-                <a href="/" className="flex items-center gap-2">
+                <Link to="/" className="flex items-center gap-2">
                     <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
                         <PackageSearch className="h-5 w-5" />
                     </div>
@@ -31,7 +32,7 @@ export default function Navbar() {
                             Seguimiento simple
                         </span>
                     </div>
-                </a>
+                </Link>
 
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex md:items-center md:gap-6">
@@ -39,13 +40,18 @@ export default function Navbar() {
                         <NavigationMenuList className="gap-2">
                             <NavigationMenuItem>
                                 <NavigationMenuLink
-                                    href="/"
-                                    className="group inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                                    asChild
                                 >
-                                    Inicio
+                                    <Link to="/" className="group inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">
+                                        Inicio
+                                    </Link>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
-
+                            {
+                                /*
+                                
+                                
+                                
                             <NavigationMenuItem>
                                 <NavigationMenuTrigger className="rounded-full px-4 text-sm font-medium text-muted-foreground hover:text-foreground">
                                     Productos
@@ -54,49 +60,55 @@ export default function Navbar() {
                                     <ul className="grid w-[240px] gap-2 p-3">
                                         <li>
                                             <NavigationMenuLink
-                                                href="/productos/1"
-                                                className="block rounded-xl p-3 transition-colors hover:bg-accent"
+                                                asChild
                                             >
-                                                <div className="text-sm font-medium text-foreground">
-                                                    Producto 1
-                                                </div>
-                                                <p className="text-xs text-muted-foreground">
-                                                    Opción destacada para seguimiento.
-                                                </p>
+                                                <Link to="/productos/1" className="block rounded-xl p-3 transition-colors hover:bg-accent">
+                                                    <div className="text-sm font-medium text-foreground">
+                                                        Producto 1
+                                                    </div>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        Opción destacada para seguimiento.
+                                                    </p>
+                                                </Link>
                                             </NavigationMenuLink>
                                         </li>
                                         <li>
                                             <NavigationMenuLink
-                                                href="/productos/2"
-                                                className="block rounded-xl p-3 transition-colors hover:bg-accent"
+                                                asChild
                                             >
-                                                <div className="text-sm font-medium text-foreground">
-                                                    Producto 2
-                                                </div>
-                                                <p className="text-xs text-muted-foreground">
-                                                    Otra solución para envíos y trazabilidad.
-                                                </p>
+                                                <Link to="/productos/2" className="block rounded-xl p-3 transition-colors hover:bg-accent">
+                                                    <div className="text-sm font-medium text-foreground">
+                                                        Producto 2
+                                                    </div>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        Otra solución para envíos y trazabilidad.
+                                                    </p>
+                                                </Link>
                                             </NavigationMenuLink>
                                         </li>
                                     </ul>
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
+                                */
+                            }
 
                             <NavigationMenuItem>
                                 <NavigationMenuLink
-                                    href="/about"
-                                    className="inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                                    asChild
                                 >
-                                    Acerca de
+                                    <Link to="/about" className="inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">
+                                        Acerca de
+                                    </Link>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
 
                             <NavigationMenuItem>
                                 <NavigationMenuLink
-                                    href="/contact"
-                                    className="inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                                    asChild
                                 >
-                                    Contacto
+                                    <Link to="/contact" className="inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">
+                                        Contacto
+                                    </Link>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
                         </NavigationMenuList>
@@ -105,16 +117,46 @@ export default function Navbar() {
 
                 {/* Desktop Buttons */}
                 <div className="hidden md:flex md:items-center md:gap-3">
-                    <Button 
-                        variant="ghost"
-                        className="rounded-full px-5 text-sm font-medium">
-                        Registrarse
-                    </Button>
-                    <Button
-                        className="rounded-full px-5 text-sm font-medium shadow-sm"
-                    >
-                        Iniciar sesión
-                    </Button>
+                    {isAuthenticated && user ? (
+                        <>
+                            <span className="text-sm font-medium text-foreground">
+                                {user?.name}
+                            </span>
+                            <Button
+                                variant="ghost"
+                                className="rounded-full px-5 text-sm font-medium"
+                                onClick={logout}
+                                >
+
+                                    Cerrar sesión
+                                
+                            </Button>
+                        </>
+
+                    ) : (
+
+                        <>
+                            <Button
+                                variant="ghost"
+                                className="rounded-full px-5 text-sm font-medium">
+
+                                <Link to="/register">
+                                    Registrarse
+                                </Link>
+                            </Button>
+                            <Button
+                                className="rounded-full px-5 text-sm font-medium shadow-sm"
+                            >
+                                <Link to="/login" >
+                                    Iniciar sesión
+                                </Link>
+                            </Button>
+
+                        </>
+                    )
+                    }
+
+
                 </div>
 
                 {/* Mobile menu button */}
@@ -136,37 +178,45 @@ export default function Navbar() {
                 <div className="border-t border-border/40 bg-background/95 backdrop-blur md:hidden">
                     <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
                         <div className="space-y-1 rounded-2xl border bg-card p-3 shadow-sm">
-                            <a
-                                href="/"
-                                className="block rounded-xl px-3 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-                            >
+                            <Link to="/" className="block rounded-xl px-3 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent">
                                 Inicio
-                            </a>
-                            <a
-                                href="/productos"
-                                className="block rounded-xl px-3 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-                            >
-                                Productos
-                            </a>
-                            <a
-                                href="/about"
+                            </Link>
+                            <Link
+                                to="/about"
                                 className="block rounded-xl px-3 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
                             >
                                 Acerca de
-                            </a>
-                            <a
-                                href="/contact"
+                            </Link>
+                            <Link
+                                to="/contact"
                                 className="block rounded-xl px-3 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
                             >
                                 Contacto
-                            </a>
+                            </Link>
                         </div>
 
                         <div className="mt-4 grid gap-2">
-                            <Button variant="outline" className="w-full rounded-full">
-                                Iniciar sesión
-                            </Button>
-                            <Button className="w-full rounded-full">Registrarse</Button>
+                            {isAuthenticated && user ? (
+                                <>
+                                    <span>{user?.name}</span>
+                                    <Link to="/logout" className="w-full rounded-full border border-border/40 bg-card px-5 py-2 text-center text-sm font-medium text-foreground transition-colors hover:bg-accent">
+                                        Cerrar sesión
+                                    </Link>
+                                </>
+                            ) : (
+                                <>
+
+                                    <Link to="/login" className="w-full rounded-full border border-border/40 bg-card px-5 py-2 text-center text-sm font-medium text-foreground transition-colors hover:bg-accent">
+                                        Iniciar sesión
+                                    </Link>
+                                    <Link to="/register" className="w-full rounded-full border border-border/40 bg-card px-5 py-2 text-center text-sm font-medium text-foreground transition-colors hover:bg-accent">
+                                        Registrarse
+                                    </Link>
+
+                                </>
+
+                            )
+                            }
                         </div>
                     </div>
                 </div>

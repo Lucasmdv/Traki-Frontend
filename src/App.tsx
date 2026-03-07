@@ -1,13 +1,15 @@
-import './App.css'
-import Main from './pages/Main'
 import Navbar from './components/shared/Navbar'
+import { AuthProvider } from './features/auth/context/AuthContext'
+import { Outlet } from 'react-router-dom'
+
+
 function App() {
-
-
   return (
     <>
-      <Navbar/>
-      <Main/>
+      <AuthProvider>
+        <Navbar/>
+          <Outlet />
+      </AuthProvider>
     </>
   )
 }

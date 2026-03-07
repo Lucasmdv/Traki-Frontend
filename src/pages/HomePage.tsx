@@ -4,7 +4,7 @@ import { NativeSelect } from '@/components/ui/native-select'
 import { Spinner } from '@/components/ui/spinner'
 import { useState } from 'react'
 
-const Main = () => {
+const HomePage = () => {
 
     const [trackingNumber, setTrackingNumber] = useState("")
     const [carrier, setCarrier] = useState("")
@@ -58,4 +58,4 @@ const Main = () => {
     )
 }
 
-export default Main
+export default HomePage
