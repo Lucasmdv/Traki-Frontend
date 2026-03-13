@@ -216,7 +216,10 @@ const RegisterPage = () => {
                                 >
                                     <Link to="/">Cancelar</Link>
                                 </Button>
-                                Ya tienes una cuenta?{" "}
+                            </div>
+                            <div className="text-muted-foreground">
+                                Ya tenes una cuenta?{" "}
+                            </div>
                                 <Button
                                     type="button"
                                     variant="outline"
@@ -225,7 +228,6 @@ const RegisterPage = () => {
                                 >
                                     <Link to="/login">Iniciar sesión</Link>
                                 </Button>
-                            </div>
                         </form>
                     </CardContent>
                 </Card>

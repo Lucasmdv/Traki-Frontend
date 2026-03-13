@@ -147,7 +147,7 @@ const LoginPage = () => {
                             <div className="flex flex-col gap-3 pt-2">
                                 <Button
                                     type="submit"
-                                    className="h-11 w-full rounded-xl text-sm font-medium"
+                                    className="h-11 w-full rounded-xl text-sm font-medium cursor-pointer"
                                     disabled={form.formState.isSubmitting}
                                 >
                                     {form.formState.isSubmitting ? (<><Spinner/> Ingresando...</>) : "Iniciar sesión"}
@@ -157,7 +157,7 @@ const LoginPage = () => {
                                     type="button"
                                     variant="outline"
                                     asChild
-                                    className="h-11 w-full rounded-xl"
+                                    className="h-11 w-full rounded-xl cursor-pointer"
                                 >
                                     <Link to="/register">Registrarse</Link>
                                 </Button>

@@ -7,90 +7,113 @@
 :root {
   --radius: 0.625rem;
 
-  /* BASE COLORS */
-  --background: #0f1412;
+  /* ===== BISCAY COLOR SCALE ===== */
+
+  --color-biscay-50: #f1f5fd;
+  --color-biscay-100: #e0e8f9;
+  --color-biscay-200: #c8d6f5;
+  --color-biscay-300: #a2bdee;
+  --color-biscay-400: #7699e4;
+  --color-biscay-500: #5678db;
+  --color-biscay-600: #425dce;
+  --color-biscay-700: #384abd;
+  --color-biscay-800: #333e9a;
+  --color-biscay-900: #28316b;
+  --color-biscay-950: #20254b;
+  --color-biscay-1000: #28272a;
+  --color-biscay-1050: #1c1c1f;
+
+
+  /* ===== BASE THEME ===== */
+
+  --background: var(--color-biscay-1000);
   --foreground: #e6f0eb;
 
-  --card: #151c19;
+  --card: var(--color-biscay-1000);
   --card-foreground: #e6f0eb;
 
-  --popover: #151c19;
+  --popover: var(--color-biscay-1050);
   --popover-foreground: #e6f0eb;
 
-  --primary: #2e7d5b;
-  --primary-foreground: #ecfdf5;
+  /* usamos Biscay como color principal */
+  --primary: var(--color-biscay-500);
+  --primary-foreground: white;
 
-  --secondary: #1b2420;
+  --secondary: var(--color-biscay-1050);
   --secondary-foreground: #e6f0eb;
 
-  --muted: #1f2a25;
+  --muted: var(--color-biscay-1050);
   --muted-foreground: #94a3b0;
 
-  --accent: #1f2a25;
-  --accent-foreground: #d1fae5;
+  --accent: var(--color-biscay-700);
+  --accent-foreground: white;
 
-  --border: #27322d;
-  --input: #27322d;
-  --ring: #34d399;
+  --border: #ffffff;
+  --input: var(--color-biscay-800);
+
+  --ring: var(--color-biscay-400);
 
   /* SUPPORT COLORS */
-  --teal: #1f6f64;
-  --cyan-soft: #2a8a82;
-  --slate-blue: #1c2630;
 
-  /* GRADIENTS */
+  --teal: var(--color-biscay-700);
+  --cyan-soft: var(--color-biscay-800);
+  --slate-blue: var(--color-biscay-900);
+
+  /* ===== GRADIENTS ===== */
+
   --gradient-main: linear-gradient(
     135deg,
-    #0f1412 0%,
-    #121a17 40%,
-    #0e1b19 100%
+    var(--color-biscay-900) 0%,
+    var(--color-biscay-950) 40%,
+    var(--color-biscay-1000) 100%
   );
 
   --gradient-card: linear-gradient(
     145deg,
-    #151c19 0%,
-    #18221e 50%,
-    #14201d 100%
+    var(--color-biscay-900) 0%,
+    var(--color-biscay-950) 50%,
+    var(--color-biscay-1000) 100%
   );
 
   --gradient-accent: linear-gradient(
     135deg,
-    #2e7d5b 0%,
-    #2a8a82 50%,
-    #1f6f64 100%
+    var(--color-biscay-500) 0%,
+    var(--color-biscay-600) 50%,
+    var(--color-biscay-700) 100%
   );
 
   --gradient-hero:
-    radial-gradient(circle at 20% 20%, rgba(52,211,153,0.12), transparent 40%),
-    radial-gradient(circle at 80% 0%, rgba(42,138,130,0.15), transparent 40%),
-    linear-gradient(135deg, #0f1412 0%, #121a17 40%, #0e1b19 100%);
+    radial-gradient(circle at 20% 20%, rgba(86,120,219,0.15), transparent 40%),
+    radial-gradient(circle at 80% 0%, rgba(66,93,206,0.18), transparent 40%),
+    linear-gradient(135deg, var(--color-biscay-900) 0%, var(--color-biscay-950) 40%, var(--color-biscay-1000) 100%);
 }
 
 .dark {
-  --background: #0f1412;
+  --background: var(--color-biscay-1000);
   --foreground: #e6f0eb;
 
-  --card: #151c19;
+  --card: var(--color-biscay-900);
   --card-foreground: #e6f0eb;
 
-  --popover: #151c19;
+  --popover: var(--color-biscay-900);
   --popover-foreground: #e6f0eb;
 
-  --primary: #2e7d5b;
-  --primary-foreground: #ecfdf5;
+  --primary: var(--color-biscay-500);
+  --primary-foreground: white;
 
-  --secondary: #1b2420;
+  --secondary: var(--color-biscay-800);
   --secondary-foreground: #e6f0eb;
 
-  --muted: #1f2a25;
+  --muted: var(--color-biscay-900);
   --muted-foreground: #94a3b0;
 
-  --accent: #1f2a25;
-  --accent-foreground: #d1fae5;
+  --accent: var(--color-biscay-700);
+  --accent-foreground: white;
 
-  --border: #27322d;
-  --input: #27322d;
-  --ring: #34d399;
+  --border: var(--color-biscay-800);
+  --input: var(--color-biscay-800);
+
+  --ring: var(--color-biscay-400);
 }
 
 @theme inline {
@@ -126,6 +149,20 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  /* BISCAY SCALE PARA TAILWIND */
+
+  --color-biscay-50: var(--color-biscay-50);
+  --color-biscay-100: var(--color-biscay-100);
+  --color-biscay-200: var(--color-biscay-200);
+  --color-biscay-300: var(--color-biscay-300);
+  --color-biscay-400: var(--color-biscay-400);
+  --color-biscay-500: var(--color-biscay-500);
+  --color-biscay-600: var(--color-biscay-600);
+  --color-biscay-700: var(--color-biscay-700);
+  --color-biscay-800: var(--color-biscay-800);
+  --color-biscay-900: var(--color-biscay-900);
+  --color-biscay-950: var(--color-biscay-950);
 }
 
 @layer base {
