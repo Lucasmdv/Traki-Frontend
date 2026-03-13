@@ -210,6 +210,7 @@ const RegisterPage = () => {
                                 <Button
                                     type="button"
                                     variant="secondary"
+                                    asChild
                                     className="h-11 w-full rounded-xl text-sm font-medium cursor-pointer"
                                     disabled={form.formState.isSubmitting}
                                 >
