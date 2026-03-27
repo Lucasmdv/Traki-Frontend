@@ -51,6 +51,27 @@ export const AuthProvider = ({ children }: Props) => {
         throw redirect("/");
     }
 
+    const register = async (name: string, surname: string, email: string, password: string) => {
+        // aquí iría la llamada real al backend
+        // const response = await api.post("/register", { name, surname, email, password })
+
+        const fakeUser: User = {
+            id: "1",
+            email,
+            name: name
+        }
+
+        const fakeToken = "fake-jwt-token"
+
+        setUser(fakeUser)
+        setToken(fakeToken)
+
+        localStorage.setItem("token", fakeToken)
+        localStorage.setItem("user", JSON.stringify(fakeUser))
+
+        throw redirect("/");
+    }
+
     return (
         <AuthContext.Provider
             value={{
@@ -58,7 +79,8 @@ export const AuthProvider = ({ children }: Props) => {
                 token,
                 isAuthenticated: !!user,
                 login,
-                logout
+                logout,
+                register
             }}
         >
             {children}
