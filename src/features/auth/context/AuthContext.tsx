@@ -1,6 +1,8 @@
 import { createContext, useState,useEffect, type ReactNode } from "react"
 import type { AuthContextType, User } from "../types/Auth.types"
 import { redirect } from "react-router-dom"
+import type { LoginFormValues } from "@/pages/LoginPage"
+import { loginService } from "@/services/thunks/loginThunk"
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
@@ -22,24 +24,15 @@ export const AuthProvider = ({ children }: Props) => {
         }
     }, [])
 
-    const login = async (email: string, password: string) => {
+    const login = async (data: LoginFormValues) => {
 
-        // aquí iría la llamada real al backend
-        // const response = await api.post("/login", { email, password })
+        const response = await loginService(data.email, data.password);
 
-        const fakeUser: User = {
-            id: "1",
-            email,
-            name: "Usuario Demo"
-        }
+        setUser(response.user)
+        setToken(response.token)
 
-        const fakeToken = "fake-jwt-token"
-
-        setUser(fakeUser)
-        setToken(fakeToken)
-
-        localStorage.setItem("token", fakeToken)
-    localStorage.setItem("user", JSON.stringify(fakeUser))
+        localStorage.setItem("token", response.token)
+        localStorage.setItem("user", JSON.stringify(response.user))
     }
 
     const logout = () => {
@@ -69,7 +62,7 @@ export const AuthProvider = ({ children }: Props) => {
         localStorage.setItem("token", fakeToken)
         localStorage.setItem("user", JSON.stringify(fakeUser))
 
-        throw redirect("/");
+        window.location.href = "/";
     }
 
     return (

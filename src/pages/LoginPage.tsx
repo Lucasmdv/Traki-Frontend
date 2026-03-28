@@ -8,33 +8,9 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Link, useNavigate } from "react-router-dom"
 import { Spinner } from "@/components/ui/spinner"
+import { formSchema, type LoginFormValues } from "../features/auth/types/Auth.types"
 
-const emailRegex =
-    /^(?!\.)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
-const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=[\]{};':"\\|,.<>/?]).{8,100}$/
-
-const formSchema = z.object({
-    email: z
-        .string()
-        .trim()
-        .min(1, "El email es obligatorio.")
-        .max(100, "El email es demasiado largo.")
-        .regex(emailRegex, "Ingresá un email válido."),
-
-    password: z
-        .string()
-        .min(1, "La contraseña es obligatoria.")
-        .min(8, "La contraseña debe tener al menos 8 caracteres.")
-        .max(100, "La contraseña debe tener como máximo 100 caracteres.")
-        .regex(
-            passwordRegex,
-            "La contraseña debe incluir mayúscula, minúscula, número y símbolo."
-        ),
-})
-
-type LoginFormValues = z.infer<typeof formSchema>
 
 const LoginPage = () => {
     const { login } = useAuth()
@@ -51,7 +27,7 @@ const LoginPage = () => {
 
     const onSubmit = async (data: LoginFormValues) => {
         try {
-            await login(data.email, data.password)
+            await login(data);
             navigate("/")
         } catch (error) {
             console.error("Login failed:", error)
