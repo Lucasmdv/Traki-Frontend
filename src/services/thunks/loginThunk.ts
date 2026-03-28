@@ -10,8 +10,13 @@ export async function loginService(data: LoginFormValues) : Promise<LoginRespons
 }
 
 export async function registerService(data: RegisterRequest) : Promise<void> {
-    const response = await authClient.post(`/auth/register`, data)
-    return response.data
+    try{
+        const response = await authClient.post(`/auth/register`, data)
+        return response.data
+    }catch (e){
+        throw e;
+    }
+    
 }
 
 export async function logoutService() {

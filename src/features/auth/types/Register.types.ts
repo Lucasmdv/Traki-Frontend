@@ -7,7 +7,7 @@ import { z } from "zod";
       lastName: string;
     };
     credentials: {
-      username: string;
+      email: string;
       password: string;
     };
   }
@@ -61,7 +61,7 @@ export function toRegisterRequest(data: RegisterFormValues): RegisterRequest {
             lastName: data.lastName,
         },
         credentials: {
-            username: data.email,
+            email: data.email,
             password: data.password,
         },
     }

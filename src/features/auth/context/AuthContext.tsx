@@ -1,9 +1,10 @@
 import { createContext, useState,useEffect, type ReactNode } from "react"
-import type { AuthContextType, User, LoginFormValues } from "../types/Login.types"
+import type {  User, LoginFormValues } from "../types/Login.types"
 import { redirect } from "react-router-dom"
 import { loginService, registerService } from "@/services/thunks/loginThunk"
 import { useToast } from "../hooks/useToast"
 import { toRegisterRequest, type RegisterFormValues } from "../types/Register.types"
+import type { AuthContextType } from "../types/Auth.types"
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
@@ -54,10 +55,8 @@ export const AuthProvider = ({ children }: Props) => {
 
         await registerService(toRegisterRequest(data)).then((response) => {
             toast.success("Registration successful " + {response});
-            window.location.href = "/";
         }).catch((error) => {
-            toast.error("Registration failed");
-            console.error("Registration failed:", error);
+            toast.error("Registration failed " + error.message);
         });
 
     }

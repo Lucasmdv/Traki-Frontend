@@ -6,15 +6,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate} from "react-router-dom"
 import { Spinner } from "@/components/ui/spinner"
 import { formSchema, type RegisterFormValues } from "@/features/auth/types/Register.types"
+import { toast } from "sonner"
 
 
 
 const RegisterPage = () => {
     const { register } = useAuth()
-    const navigate = useNavigate()
+    const  navigate  = useNavigate();
 
     const form = useForm<RegisterFormValues>({
         resolver: zodResolver(formSchema),
@@ -28,11 +29,12 @@ const RegisterPage = () => {
     })
 
     const onSubmit = async (data: RegisterFormValues) => {
-        try {
-            await register(data.firstName, data.lastName, data.email, data.password)
-            navigate("/")
-        } catch (error) {
-            console.error("Registration failed:", error)
+        try{
+
+            await register(data);
+            navigate("/login");
+        }catch{
+            toast.info("hubo un error");
         }
     }
 
@@ -166,7 +168,6 @@ const RegisterPage = () => {
                                     type="submit"
                                     className="h-11 w-full rounded-xl text-sm font-medium cursor-pointer"
                                     disabled={form.formState.isSubmitting}
-                                    onClick={() => onSubmit(form.getValues())}
                                 >
                                     {form.formState.isSubmitting ? (<><Spinner/> Registrando...</>) : "Registrarse"}
                                 </Button>
