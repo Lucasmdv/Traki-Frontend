@@ -1,8 +1,9 @@
 import { createContext, useState,useEffect, type ReactNode } from "react"
-import type { AuthContextType, User } from "../types/Auth.types"
+import type { AuthContextType, User, LoginFormValues } from "../types/Login.types"
 import { redirect } from "react-router-dom"
-import type { LoginFormValues } from "@/pages/LoginPage"
-import { loginService } from "@/services/thunks/loginThunk"
+import { loginService, registerService } from "@/services/thunks/loginThunk"
+import { useToast } from "../hooks/useToast"
+import { toRegisterRequest, type RegisterFormValues } from "../types/Register.types"
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
@@ -13,7 +14,7 @@ interface Props {
 export const AuthProvider = ({ children }: Props) => {
     const [user, setUser] = useState<User | null>(null)
     const [token, setToken] = useState<string | null>(null)
-
+    const { toast } = useToast();
     useEffect(() => {
         const storedToken = localStorage.getItem("token")
         const storedUser = localStorage.getItem("user")
@@ -26,13 +27,16 @@ export const AuthProvider = ({ children }: Props) => {
 
     const login = async (data: LoginFormValues) => {
 
-        const response = await loginService(data.email, data.password);
+        await loginService(data).then((response) => {
+            toast.success("Login successful " + {response});
+            localStorage.setItem("token", response.token)
+            localStorage.setItem("user", JSON.stringify(response.user))
+        }).catch((error) => {
+            toast.error("Login failed");
+            console.error("Login failed:", error);
+        });
 
-        setUser(response.user)
-        setToken(response.token)
-
-        localStorage.setItem("token", response.token)
-        localStorage.setItem("user", JSON.stringify(response.user))
+        
     }
 
     const logout = () => {
@@ -44,25 +48,18 @@ export const AuthProvider = ({ children }: Props) => {
         throw redirect("/");
     }
 
-    const register = async (name: string, surname: string, email: string, password: string) => {
+    const register = async (data: RegisterFormValues) => {
         // aquí iría la llamada real al backend
         // const response = await api.post("/register", { name, surname, email, password })
 
-        const fakeUser: User = {
-            id: "1",
-            email,
-            name: name
-        }
+        await registerService(toRegisterRequest(data)).then((response) => {
+            toast.success("Registration successful " + {response});
+            window.location.href = "/";
+        }).catch((error) => {
+            toast.error("Registration failed");
+            console.error("Registration failed:", error);
+        });
 
-        const fakeToken = "fake-jwt-token"
-
-        setUser(fakeUser)
-        setToken(fakeToken)
-
-        localStorage.setItem("token", fakeToken)
-        localStorage.setItem("user", JSON.stringify(fakeUser))
-
-        window.location.href = "/";
     }
 
     return (

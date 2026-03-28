@@ -8,47 +8,9 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Link, useNavigate } from "react-router-dom"
 import { Spinner } from "@/components/ui/spinner"
+import { formSchema, type RegisterFormValues } from "@/features/auth/types/Register.types"
 
-const emailRegex =
-    /^(?!\.)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
-const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=[\]{};':"\\|,.<>/?]).{8,100}$/
-
-const formSchema = z.object({
-    name: z
-        .string()
-        .trim()
-        .min(1, "El nombre es obligatorio.")
-        .max(50, "El nombre es demasiado largo.")
-        .nonempty("El nombre es obligatorio."),
-        
-    surname: z
-        .string()
-        .trim()
-        .min(1, "El apellido es obligatorio.")
-        .max(50, "El apellido es demasiado largo.")
-        .nonempty("El apellido es obligatorio."),
-
-    email: z
-        .string()
-        .trim()
-        .min(1, "El email es obligatorio.")
-        .max(100, "El email es demasiado largo.")
-        .regex(emailRegex, "Ingresá un email válido."),
-
-    password: z
-        .string()
-        .min(1, "La contraseña es obligatoria.")
-        .min(8, "La contraseña debe tener al menos 8 caracteres.")
-        .max(100, "La contraseña debe tener como máximo 100 caracteres.")
-        .regex(
-            passwordRegex,
-            "La contraseña debe incluir mayúscula, minúscula, número y símbolo."
-        ),
-})
-
-type RegisterFormValues = z.infer<typeof formSchema>
 
 const RegisterPage = () => {
     const { register } = useAuth()
@@ -57,8 +19,8 @@ const RegisterPage = () => {
     const form = useForm<RegisterFormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
-            surname: "",
+            firstName: "",
+            lastName: "",
             email: "",
             password: "",
         },
@@ -67,7 +29,7 @@ const RegisterPage = () => {
 
     const onSubmit = async (data: RegisterFormValues) => {
         try {
-            await register(data.name, data.surname, data.email, data.password)
+            await register(data.firstName, data.lastName, data.email, data.password)
             navigate("/")
         } catch (error) {
             console.error("Registration failed:", error)
@@ -99,15 +61,15 @@ const RegisterPage = () => {
                         >
                             <FieldGroup>
                                 <Controller
-                                    name="name"
+                                    name="firstName"
                                     control={form.control}
                                     render={({ field, fieldState }) => (
                                         <Field data-invalid={fieldState.invalid}>
-                                            <FieldLabel htmlFor="register-name">Nombre</FieldLabel>
+                                            <FieldLabel htmlFor="register-firstName">Nombre</FieldLabel>
 
                                             <Input
                                                 {...field}
-                                                id="register-name"
+                                                id="register-firstName"
                                                 type="text"
                                                 aria-invalid={fieldState.invalid}
                                                 placeholder="Nombre..."
@@ -123,7 +85,7 @@ const RegisterPage = () => {
                             </FieldGroup>
                             <FieldGroup>
                                 <Controller
-                                    name="surname"
+                                    name="lastName"
                                     control={form.control}
                                     render={({ field, fieldState }) => (
                                         <Field data-invalid={fieldState.invalid}>
@@ -204,6 +166,7 @@ const RegisterPage = () => {
                                     type="submit"
                                     className="h-11 w-full rounded-xl text-sm font-medium cursor-pointer"
                                     disabled={form.formState.isSubmitting}
+                                    onClick={() => onSubmit(form.getValues())}
                                 >
                                     {form.formState.isSubmitting ? (<><Spinner/> Registrando...</>) : "Registrarse"}
                                 </Button>

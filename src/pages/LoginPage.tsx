@@ -1,4 +1,3 @@
-import { z } from "zod"
 import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useAuth } from "../features/auth/hooks/useAuth"
@@ -8,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Link, useNavigate } from "react-router-dom"
 import { Spinner } from "@/components/ui/spinner"
-import { formSchema, type LoginFormValues } from "../features/auth/types/Auth.types"
+import { formSchema, type LoginFormValues } from "../features/auth/types/Login.types"
 
 
 
